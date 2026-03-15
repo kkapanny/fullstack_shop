@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Товар - Aevum</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="page-card">  <!-- Добавлен класс page-card -->
+    <header>
+        <h1>Aevum</h1>
+        <p>Онлайн-магазин уходовой косметики</p>
+    </header>
+    
+    <main>
+        <!-- Используем div с классом container -->
+        <div class="container" style="flex-direction: column; min-height: auto;">
+            <!-- Кнопка "Назад к товарам" -->
+            <div class="product-actions">
+                <button class="btn btn-primary back-button" onclick="goBack()">← Назад к товарам</button>
+            </div>
+            
+            <!-- Детальная карточка товара -->
+            <div class="product-detail" id="product-detail">
+                <div id="loading" class="loading">Загрузка...</div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>| http://localhost:3000</p>
+        <p>Запуск сервера: <code>npm start / node server.js</code></p>
+    </footer>
+
+    <script>
+        const API_URL = 'http://localhost:3000';
+        
+        // Получаем ID товара из URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id');
+        
+        // DOM элементы
+        const productDetail = document.getElementById('product-detail');
+        const loadingElement = document.getElementById('loading');
+        
+        // Загрузить детали товара
+        async function loadProductDetails() {
+            if (!productId) {
+                showError('ID товара не указан');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_URL}/api/products/${productId}`);
+                const data = await response.json();
+                
+                loadingElement.style.display = 'none';
+                
+                if (data.success) {
+                    renderProduct(data.data);
+                } else {
+                    showError('Товар не найден');
+                }
+            } catch (error) {
+                console.error('Ошибка:', error);
+                showError('Не удалось загрузить товар');
+            }
+        }
+        
+        // Отобразить детали товара
+        function renderProduct(product) {
+            productDetail.innerHTML = `
+                <div class="product-detail__card">
+                    <div class="product-detail__content">
+                        <!-- Фотография слева -->
+                        <div class="product-detail__image-container">
+                            <img src="organic-cosmetic-product.avif" alt="Фото товара" class="product-detail__image">
+                        </div>
+                        
+                        <!-- Информация о товаре справа -->
+                        <div class="product-detail__info">
+                            <h2 class="product-detail__title">${product.name}</h2>
+                            
+                            <div class="product-detail__field">
+                                <span class="product-detail__label">ID:</span>
+                                <span class="product-detail__value">${product.id}</span>
+                            </div>
+                            
+                            <div class="product-detail__field">
+                                <span class="product-detail__label">Категория:</span>
+                                <span class="product-detail__value">${product.category || 'Не указана'}</span>
+                            </div>
+                            
+                            <div class="product-detail__field">
+                                <span class="product-detail__label">Цена:</span>
+                                <span class="product-detail__value product-detail__price">${formatPrice(product.price)}</span>
+                            </div>
+                            
+                            <div class="product-detail__field">
+                                <span class="product-detail__label">Наличие:</span>
+                                <span class="product-detail__value ${product.inStock ? 'in-stock' : 'out-of-stock'}">
+                                    ${product.inStock ? 'В наличии' : 'Нет в наличии'}
+                                </span>
+                            </div>
+                            
+                            ${product.description ? `
+                            <div class="product-detail__field">
+                                <span class="product-detail__label">Описание:</span>
+                                <p class="product-detail__description">${product.description}</p>
+                            </div>
+                            ` : ''}
+                            
+                            <div class="product-detail__actions">
+                                <button class="btn btn-primary" onclick="addToCart(${product.id})">Добавить в корзину</button>
+                                <button class="btn btn-danger" onclick="deleteFromDetail(${product.id})">Удалить товар</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Форматировать цену
+        function formatPrice(price) {
+            return new Intl.NumberFormat('ru-RU').format(price) + ' ₽';
+        }
+        
+        // Показать ошибку
+        function showError(message) {
+            loadingElement.style.display = 'none';
+            productDetail.innerHTML = `
+                <div class="empty-state">
+                    <p>${message}</p>
+                    <button class="btn btn-primary" onclick="goBack()">Вернуться к товарам</button>
+                </div>
+            `;
+        }
+        
+        // Вернуться назад
+        function goBack() {
+            window.location.href = '/';
+        }
+        
+        // Добавить в корзину
+        function addToCart(id) {
+            alert(`Товар ${id} добавлен в корзину (функция в разработке)`);
+        }
+        
+        // Удалить товар
+        async function deleteFromDetail(id) {
+            if (!confirm('Удалить товар?')) return;
+            
+            try {
+                const response = await fetch(`${API_URL}/api/products/${id}`, {
+                    method: 'DELETE'
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('Товар удалён');
+                    goBack();
+                }
+            } catch (error) {
+                alert('Ошибка удаления');
+            }
+        }
+        
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', loadProductDetails);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,15 @@
+@use 'variables';
+
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin card {
+    background: white;
+    border: 1px solid #baa791;
+    border-radius: 7px;
+    padding: 5%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}

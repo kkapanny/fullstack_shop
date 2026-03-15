@@ -1,0 +1,219 @@
+@use 'variables' as v;
+@use 'mixins';
+@use 'product';
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+// Основные стили
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    color: v.$text-color;
+    background-color: #f5f5f5;
+    padding: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+// Шапка
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    border-bottom: 2px solid v.$primary-color;
+    
+    h1 {
+        color: v.$dark-color;
+        margin-bottom: 0.5rem;
+    }
+    
+    p {
+        color: #666;
+    }
+}
+
+.btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: v.$border-radius;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    
+    &-primary {
+        background-color: v.$primary-color;
+        color: white;
+        
+        &:hover {
+            background-color: darken(v.$primary-color, 10%);
+        }
+    }
+    
+    &-danger {
+        background-color: v.$danger-color;
+        color: white;
+        
+        &:hover {
+            background-color: darken(v.$danger-color, 10%);
+        }
+    }
+    
+    &-small {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.9rem;
+    }
+}
+
+// Карточка товара
+.product-card {
+    @include mixins.card;
+    margin-bottom: 1rem;
+    
+    &__title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: v.$dark-color;
+    }
+    
+    &__price {
+        color: v.$primary-color;
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin: 0.5rem 0;
+    }
+    
+    &__category {
+        display: inline-block;
+        background: v.$light-color;
+        color: #666;
+        padding: 0.2rem 0.5rem;
+        border-radius: 3px;
+        font-size: 0.85rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    &__actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 1rem;
+    }
+}
+
+// Формы
+.form-group {
+    margin-bottom: 1rem;
+    
+    label {
+        display: block;
+        margin-bottom: 0.3rem;
+        font-weight: 500;
+    }
+    
+    input, select, textarea {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid v.$border-color;
+        border-radius: 4px;
+        font-size: 1rem;
+        
+        &:focus {
+            outline: none;
+            border-color: v.$primary-color;
+        }
+    }
+    
+    textarea {
+        min-height: 80px;
+        resize: vertical;
+    }
+}
+
+// Сетка товаров
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.items {
+    flex: 1;
+    padding: 20px;
+}
+
+.add_item {
+    max-width: 400px; /* Фиксированная ширина */
+    max-width: 100%; /* Для адаптивности */
+    padding: 20px;
+}
+
+// API панель
+.api-panel {
+    background: v.$light-color;
+    padding: 1.5rem;
+    border-radius: v.$border-radius;
+    margin: 2rem 0;
+    border-left: 3px solid v.$primary-color;
+    
+    h3 {
+        margin-bottom: 1rem;
+        color: v.$dark-color;
+    }
+}
+
+// Загрузка
+.loading {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+}
+
+// Пустое состояние
+.empty-state {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+    border: 2px dashed v.$border-color;
+    border-radius: v.$border-radius;
+    margin: 1rem 0;
+}
+
+// Уведомления
+.notification {
+    padding: 0.8rem 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    
+    &--success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+    
+    &--error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+}
+
+footer {
+    text-align: center;
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 1px solid v.$border-color;
+    color: #666;
+    font-size: 0.9rem;
+}

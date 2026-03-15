@@ -1,0 +1,136 @@
+@use 'variables' as v;
+
+/* Стили только для страницы card.html */
+.page-card .container {
+    flex-direction: column !important;
+    min-height: auto !important;
+}
+
+.product-detail {
+    width: 100%;
+    margin-top: 1rem;
+    
+    &__card {
+        background: white;
+        border: 1px solid v.$border-color;
+        border-radius: 8px;
+        padding: 2rem;
+        width: 100%;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    &__content {
+        display: flex;
+        gap: 2rem;
+        align-items: flex-start;
+    }
+    
+    &__image-container {
+        flex: 0 0 300px;
+    }
+    
+    &__image {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border: 1px solid v.$light-color;
+    }
+    
+    &__info {
+        flex: 1;
+        min-width: 0;
+    }
+    
+    &__title {
+        font-size: 2rem;
+        color: v.$dark-color;
+        margin-bottom: 1.5rem;
+        border-bottom: 2px solid v.$primary-color;
+        padding-bottom: 0.5rem;
+    }
+    
+    &__field {
+        margin-bottom: 1rem;
+        padding: 0.5rem;
+        background: #f9f9f9;
+        border-radius: 4px;
+    }
+    
+    &__label {
+        font-weight: bold;
+        color: #666;
+        display: inline-block;
+        min-width: 100px;
+    }
+    
+    &__value {
+        color: v.$dark-color;
+    }
+    
+    &__price {
+        color: v.$primary-color;
+        font-size: 1.3rem;
+        font-weight: bold;
+    }
+    
+    &__description {
+        margin-top: 0.5rem;
+        padding: 1rem;
+        background: white;
+        border: 1px solid v.$light-color;
+        border-radius: 4px;
+        line-height: 1.6;
+    }
+    
+    &__actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+        
+        .btn {
+            flex: 1;
+        }
+    }
+}
+
+.in-stock {
+    color: v.$primary-color;
+    font-weight: bold;
+}
+
+.out-of-stock {
+    color: v.$danger-color;
+    font-weight: bold;
+}
+
+.product-actions {
+    width: 100%;
+    height: 42px;
+    margin-bottom: 1rem;
+    text-align: left;
+    display: flex;
+    align-items: center;
+}
+
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 0 1rem;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .product-detail__content {
+        flex-direction: column;
+    }
+    
+    .product-detail__image-container {
+        flex: 0 0 auto;
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+}

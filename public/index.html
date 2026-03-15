@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Онлайн-магазин</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Aevum</h1>
+        <p>Онлайн-магазин уходовой косметики</p>
+    </header>
+    <main>
+        <div class="container">
+            <!-- Левая колонка с товарами -->
+            <section class="items">
+                <h2>Товары</h2>
+                <div class="products-grid" id="products-container">
+                </div>
+                <div id="loading" class="loading">Загрузка...</div>
+            </section>
+
+            <!-- Правая колонка с добавлением товара -->
+            <section class="add_item">
+                <h2>Добавить товар</h2>
+                <form id="add-product-form">
+                    <div class="form-group">
+                        <label>Название</label>
+                        <input type="text" id="product-name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Цена (₽)</label>
+                        <input type="number" id="product-price" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Категория</label>
+                        <select id="product-category">
+                            <option>Очищение</option>
+                            <option>Увлажнение</option>
+                            <option>Питание</option>
+                            <option>Другое</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Добавить</button>
+                </form>
+                <div id="form-message" style="margin-top: 1rem;"></div>
+            </section>
+        </div>
+
+        <!-- API Инструкции -->
+        <section class="api-panel">
+            <h3>🔧 API для Postman</h3>
+            <p><strong>Base URL:</strong> http://localhost:3000</p>
+            <div style="margin-top: 1rem;">
+                <p><strong>Endpoints:</strong></p>
+                <pre style="background: white; padding: 1rem; border-radius: 4px; overflow-x: auto;">
+GET    /api/products           - все товары
+GET    /api/products/:id       - товар по ID
+POST   /api/products           - создать товар
+PUT    /api/products/:id       - обновить товар
+DELETE /api/products/:id       - удалить товар</pre>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>| http://localhost:3000</p>
+        <p>Запуск сервера: <code>npm start / node server.js</code></p>
+    </footer>
+
+    <script>
+        const API_URL = 'http://localhost:3000';
+
+        // DOM элементы
+        const productsContainer = document.getElementById('products-container');
+        const loadingElement = document.getElementById('loading');
+        const form = document.getElementById('add-product-form');
+        const messageElement = document.getElementById('form-message');
+
+        // Показать сообщение
+        function showMessage(text, type = 'info') {
+            messageElement.innerHTML = `<div class="notification notification--${type}">${text}</div>`;
+            setTimeout(() => messageElement.innerHTML = '', 3000);
+        }
+
+        // Загрузить товары
+        async function loadProducts() {
+            try {
+                const response = await fetch(API_URL + '/api/products');
+                const data = await response.json();
+
+                if (loadingElement) loadingElement.style.display = 'none';
+
+                if (data.success) {
+                    renderProducts(data.data);
+                }
+            } catch (error) {
+                console.error('Ошибка:', error);
+                productsContainer.innerHTML = `
+                    <div class="empty-state">
+                        <p>❌ Не удалось загрузить товары</p>
+                        <p><small>Проверьте, запущен ли сервер: <code>npm start</code></small></p>
+                    </div>
+                `;
+                if (loadingElement) loadingElement.style.display = 'none';
+            }
+        }
+
+        // Отобразить товары
+        function renderProducts(products) {
+            if (!products || products.length === 0) {
+                productsContainer.innerHTML = '<div class="empty-state">Товаров пока нет</div>';
+                return;
+            }
+
+            productsContainer.innerHTML = products.map(product => `
+                <div class="product-card" onclick="viewProduct(${product.id})" style="cursor: pointer;">
+                    <h3 class="product-card__title">${product.name}</h3>
+                    <div class="product-card__category">${product.category}</div>
+                    <div class="product-card__price">${formatPrice(product.price)}</div>
+                    <div style="margin: 0.5rem 0; font-size: 0.9rem;">
+                        ${product.inStock ? 'В наличии' : 'Нет в наличии'}
+                    </div>
+                    <div class="product-card__actions" onclick="event.stopPropagation();">
+                        <button class="btn btn-danger btn-small" onclick="deleteProduct(${product.id})">
+                            Удалить
+                        </button>
+                        <span style="font-size: 0.8rem; color: #666;">ID: ${product.id}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Функция для перехода на детальную страницу
+        function viewProduct(id) {
+            window.location.href = `/card.html?id=${id}`;
+        }
+
+        // Форматировать цену
+        function formatPrice(price) {
+            return new Intl.NumberFormat('ru-RU').format(price) + ' ₽';
+        }
+
+        // Удалить товар
+        async function deleteProduct(id) {
+            if (!confirm('Удалить товар?')) return;
+
+            try {
+                const response = await fetch(API_URL + '/api/products/' + id, {
+                    method: 'DELETE'
+                });
+                const data = await response.json();
+
+                if (data.success) {
+                    showMessage('Товар удалён', 'success');
+                    loadProducts();
+                }
+            } catch (error) {
+                showMessage('Ошибка удаления', 'error');
+            }
+        }
+
+        // Добавить товар
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const product = {
+                name: document.getElementById('product-name').value,
+                price: parseFloat(document.getElementById('product-price').value),
+                category: document.getElementById('product-category').value,
+                inStock: true
+            };
+
+            if (!product.name || product.price <= 0) {
+                showMessage('Заполните поля корректно', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(API_URL + '/api/products', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(product)
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    form.reset();
+                    showMessage('Товар добавлен', 'success');
+                    loadProducts();
+                }
+            } catch (error) {
+                showMessage('Ошибка добавления', 'error');
+            }
+        });
+
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProducts();
+
+            // Автообновление
+            setInterval(loadProducts, 3000);
+        });
+    </script>
+</body>
+
+</html>
