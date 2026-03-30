@@ -1,0 +1,82 @@
+[
+  {
+    "id": "9As2zm",
+    "name": "Шампунь Фаа",
+    "price": 999,
+    "category": "Очищение",
+    "description": "Мягкий шампунь для ежедневного ухода.",
+    "stock": 25
+  },
+  {
+    "id": "qPHQNR",
+    "name": "Пенка для умывания Pure",
+    "price": 790,
+    "category": "Очищение",
+    "description": "Нежная пенка для чувствительной кожи.",
+    "stock": 18
+  },
+  {
+    "id": "2nA_05",
+    "name": "Тоник Balance",
+    "price": 850,
+    "category": "Очищение",
+    "description": "Тоник без спирта, восстанавливает pH кожи.",
+    "stock": 16
+  },
+  {
+    "id": "1l4Yhr",
+    "name": "Сыворотка Aqua Boost",
+    "price": 1590,
+    "category": "Увлажнение",
+    "description": "Интенсивно увлажняет и делает кожу более гладкой.",
+    "stock": 12
+  },
+  {
+    "id": "T0QDOk",
+    "name": "Крем Day Soft",
+    "price": 1290,
+    "category": "Увлажнение",
+    "description": "Легкий дневной крем для нормальной кожи.",
+    "stock": 20
+  },
+  {
+    "id": "yFJ9dZ",
+    "name": "Крем Night Repair",
+    "price": 1490,
+    "category": "Питание",
+    "description": "Ночной крем для восстановления и питания.",
+    "stock": 11
+  },
+  {
+    "id": "v5EdhF",
+    "name": "Маска Nutri Silk",
+    "price": 1190,
+    "category": "Питание",
+    "description": "Питательная маска с маслами авокадо и ши.",
+    "stock": 9
+  },
+  {
+    "id": "z4FUpa",
+    "name": "Солнцезащитный крем SPF 50",
+    "price": 1390,
+    "category": "Защита",
+    "description": "Высокая степень защиты от UVA/UVB лучей.",
+    "stock": 15
+  },
+  {
+    "id": "_a2kUh",
+    "name": "Мицеллярная вода Clear",
+    "price": 720,
+    "category": "Очищение",
+    "description": "Быстро удаляет макияж и загрязнения.",
+    "stock": 22
+  },
+  {
+    "id": "hOls-m",
+    "name": "крем для тела",
+    "price": 900,
+    "category": "другое",
+    "description": "утилоыстыдлцсау",
+    "stock": 50
+  }
+]

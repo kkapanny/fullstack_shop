@@ -8,21 +8,20 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body class="page-card">  <!-- Добавлен класс page-card -->
+<body class="page-card">
     <header>
         <h1>Aevum</h1>
         <p>Онлайн-магазин уходовой косметики</p>
     </header>
     
     <main>
-        <!-- Используем div с классом container -->
         <div class="container" style="flex-direction: column; min-height: auto;">
-            <!-- Кнопка "Назад к товарам" -->
+            <!-- кнопка "Назад к товарам" -->
             <div class="product-actions">
                 <button class="btn btn-primary back-button" onclick="goBack()">← Назад к товарам</button>
             </div>
             
-            <!-- Детальная карточка товара -->
+            <!-- детальная карточка товара -->
             <div class="product-detail" id="product-detail">
                 <div id="loading" class="loading">Загрузка...</div>
             </div>
@@ -37,15 +36,13 @@
     <script>
         const API_URL = 'http://localhost:3000';
         
-        // Получаем ID товара из URL
+        // ID товара из URL
         const urlParams = new URLSearchParams(window.location.search);
         const productId = urlParams.get('id');
         
-        // DOM элементы
         const productDetail = document.getElementById('product-detail');
         const loadingElement = document.getElementById('loading');
         
-        // Загрузить детали товара
         async function loadProductDetails() {
             if (!productId) {
                 showError('ID товара не указан');
@@ -58,8 +55,10 @@
                 
                 loadingElement.style.display = 'none';
                 
-                if (data.success) {
-                    renderProduct(data.data);
+                const product = data && data.data ? data.data : data;
+
+                if (product && product.id) {
+                    renderProduct(product);
                 } else {
                     showError('Товар не найден');
                 }
@@ -68,8 +67,7 @@
                 showError('Не удалось загрузить товар');
             }
         }
-        
-        // Отобразить детали товара
+
         function renderProduct(product) {
             productDetail.innerHTML = `
                 <div class="product-detail__card">
@@ -100,8 +98,8 @@
                             
                             <div class="product-detail__field">
                                 <span class="product-detail__label">Наличие:</span>
-                                <span class="product-detail__value ${product.inStock ? 'in-stock' : 'out-of-stock'}">
-                                    ${product.inStock ? 'В наличии' : 'Нет в наличии'}
+                                <span class="product-detail__value ${Number(product.stock) > 0 ? 'in-stock' : 'out-of-stock'}">
+                                    ${Number(product.stock) > 0 ? `В наличии: ${product.stock} шт.` : 'Нет в наличии'}
                                 </span>
                             </div>
                             
@@ -113,8 +111,8 @@
                             ` : ''}
                             
                             <div class="product-detail__actions">
-                                <button class="btn btn-primary" onclick="addToCart(${product.id})">Добавить в корзину</button>
-                                <button class="btn btn-danger" onclick="deleteFromDetail(${product.id})">Удалить товар</button>
+                                <button class="btn btn-primary" onclick="addToCart('${product.id}')">Добавить в корзину</button>
+                                <button class="btn btn-danger" onclick="deleteFromDetail('${product.id}')">Удалить товар</button>
                             </div>
                         </div>
                     </div>
@@ -122,12 +120,10 @@
             `;
         }
         
-        // Форматировать цену
         function formatPrice(price) {
             return new Intl.NumberFormat('ru-RU').format(price) + ' ₽';
         }
         
-        // Показать ошибку
         function showError(message) {
             loadingElement.style.display = 'none';
             productDetail.innerHTML = `
@@ -138,17 +134,14 @@
             `;
         }
         
-        // Вернуться назад
         function goBack() {
             window.location.href = '/';
         }
         
-        // Добавить в корзину
         function addToCart(id) {
             alert(`Товар ${id} добавлен в корзину (функция в разработке)`);
         }
         
-        // Удалить товар
         async function deleteFromDetail(id) {
             if (!confirm('Удалить товар?')) return;
             
@@ -167,7 +160,6 @@
             }
         }
         
-        // Инициализация
         document.addEventListener('DOMContentLoaded', loadProductDetails);
     </script>
 </body>
