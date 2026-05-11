@@ -1,6 +1,6 @@
 import ProductItem from './ProductItem';
 
-export default function ProductsList({ products, onEdit, onDelete }) {
+export default function ProductsList({ products, onEdit, onDelete, canEdit, canDelete }) {
   if (!products.length) {
     return <div className="empty-state">Товаров пока нет</div>;
   }
@@ -8,7 +8,14 @@ export default function ProductsList({ products, onEdit, onDelete }) {
   return (
     <div className="products-grid">
       {products.map((product) => (
-        <ProductItem key={product.id} product={product} onEdit={onEdit} onDelete={onDelete} />
+        <ProductItem
+          key={product.id}
+          product={product}
+          onEdit={onEdit}
+          onDelete={onDelete}
+          canEdit={canEdit}
+          canDelete={canDelete}
+        />
       ))}
     </div>
   );

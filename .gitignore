@@ -1,0 +1,5 @@
+node_modules/
+swagger-ui/
+.DS_Store
+.postman/
+practice3(API tests).rtfd/

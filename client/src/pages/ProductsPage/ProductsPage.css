@@ -48,6 +48,95 @@ header p {
   justify-content: space-between;
 }
 
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 0.75rem;
+}
+
+.users-table-wrap {
+  overflow-x: auto;
+}
+
+.users-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  background: white;
+  border: 1px solid #baa791;
+  border-radius: 8px;
+}
+
+.users-table th,
+.users-table td {
+  padding: 0.7rem;
+  border-bottom: 1px solid #eae6db;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.users-table th {
+  background: #f7f3ea;
+  color: #22443b;
+}
+
+.users-table th:nth-child(3),
+.users-table td:nth-child(3) {
+  width: 150px;
+  min-width: 150px;
+  max-width: 150px;
+  padding-left: 0.45rem;
+  padding-right: 0.45rem;
+}
+
+.users-table th:nth-child(4),
+.users-table td:nth-child(4) {
+  width: 170px;
+  min-width: 170px;
+  max-width: 170px;
+  padding-left: 0.45rem;
+  padding-right: 0.45rem;
+}
+
+.users-table th:nth-child(1),
+.users-table td:nth-child(1),
+.users-table th:nth-child(2),
+.users-table td:nth-child(2) {
+  width: calc((100% - 150px - 170px - 48px) / 2);
+}
+
+.users-table tr:last-child td {
+  border-bottom: none;
+}
+
+.users-table__delete-col {
+  width: 48px;
+  min-width: 48px;
+  max-width: 48px;
+  text-align: center !important;
+  padding-left: 0.4rem !important;
+  padding-right: 0.4rem !important;
+}
+
+.icon-btn-danger {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+  padding: 0;
+}
+
+.icon-btn-danger__img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
 .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -197,7 +286,8 @@ header p {
 }
 
 .form-group input,
-.form-group textarea {
+.form-group textarea,
+.form-group select {
   width: 100%;
   padding: 0.5rem;
   border: 1px solid #baa791;

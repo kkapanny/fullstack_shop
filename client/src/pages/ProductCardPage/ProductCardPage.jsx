@@ -6,12 +6,25 @@ import '../ProductsPage/ProductsPage.css';
 export default function ProductCardPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [user, setUser] = useState(null);
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    loadMe();
     loadProduct();
   }, [id]);
+
+  async function loadMe() {
+    try {
+      const me = await api.me();
+      setUser(me);
+    } catch (error) {
+      console.error(error);
+      api.clearTokens();
+      navigate('/login');
+    }
+  }
 
   async function loadProduct() {
     try {
@@ -56,7 +69,7 @@ export default function ProductCardPage() {
               <div className="empty-state">Товар не найден</div>
             ) : (
               <div className="product-detail__card">
-                <h2 className="product-card__title">{product.name}</h2>
+                <h2 className="product-card__title">{product.title || product.name}</h2>
                 <div className="product-card__category">{product.category}</div>
                 <div className="product-card__price">
                   {new Intl.NumberFormat('ru-RU').format(product.price)} ₽
@@ -66,11 +79,13 @@ export default function ProductCardPage() {
                 </div>
                 <p className="product-card__description">{product.description}</p>
                 <div style={{ marginTop: '1rem', fontSize: '0.9rem', color: '#666' }}>ID: {product.id}</div>
-                <div className="product-card__actions">
-                  <button className="btn btn-danger" onClick={handleDelete}>
-                    Удалить товар
-                  </button>
-                </div>
+                {['seller', 'admin'].includes(user?.role) && (
+                  <div className="product-card__actions">
+                    <button className="btn btn-danger" onClick={handleDelete}>
+                      Удалить товар
+                    </button>
+                  </div>
+                )}
               </div>
             )}
           </section>

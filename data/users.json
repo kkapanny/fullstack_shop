@@ -1,0 +1,29 @@
+[
+  {
+    "id": "KYuCki",
+    "email": "anya@gmail.com",
+    "first_name": "anya",
+    "last_name": "kkk",
+    "password": "$2b$10$i64f98MuQZLDfglGcXPstuUtfyzcrJ8sTRSgQx9G4Y0s55XSCWVkS",
+    "role": "buyer",
+    "is_blocked": false
+  },
+  {
+    "id": "e0_SuQ",
+    "email": "admin@gmail.com",
+    "first_name": "admin",
+    "last_name": "admin",
+    "password": "$2b$10$jOuZTVrTo4df.SwV6le5Du4XKUd/Zn7DbjQuBXGot8CqrkQvpu0nK",
+    "role": "admin",
+    "is_blocked": false
+  },
+  {
+    "id": "lmX0Ed",
+    "email": "trader@gmail.com",
+    "first_name": "trader",
+    "last_name": "pro",
+    "password": "$2b$10$DKp4wh5N4yu1dNrHnuNbQeMxSNX7yxdXma.6A3A./k7cMqI3MfcJK",
+    "role": "seller",
+    "is_blocked": false
+  }
+]

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 const INITIAL_STATE = {
-  name: '',
+  title: '',
   category: 'Очищение',
   description: '',
   price: '',
@@ -15,7 +15,7 @@ export default function ProductModal({ open, mode, initialProduct, onClose, onSu
     if (!open) return;
     if (mode === 'edit' && initialProduct) {
       setForm({
-        name: initialProduct.name || '',
+        title: initialProduct.title || initialProduct.name || '',
         category: initialProduct.category || 'Очищение',
         description: initialProduct.description || '',
         price: String(initialProduct.price ?? ''),
@@ -38,7 +38,7 @@ export default function ProductModal({ open, mode, initialProduct, onClose, onSu
     event.preventDefault();
     const price = Number(form.price);
     const stock = Number(form.stock);
-    if (!form.name.trim()) return alert('Введите название');
+    if (!form.title.trim()) return alert('Введите название');
     if (!form.category.trim()) return alert('Введите категорию');
     if (!form.description.trim()) return alert('Введите описание');
     if (!Number.isFinite(price) || price <= 0) return alert('Цена должна быть больше 0');
@@ -46,7 +46,7 @@ export default function ProductModal({ open, mode, initialProduct, onClose, onSu
 
     onSubmit({
       id: initialProduct?.id,
-      name: form.name.trim(),
+      title: form.title.trim(),
       category: form.category.trim(),
       description: form.description.trim(),
       price,
@@ -66,7 +66,7 @@ export default function ProductModal({ open, mode, initialProduct, onClose, onSu
         <form onSubmit={handleSubmit} className="modal__form">
           <div className="form-group">
             <label>Название</label>
-            <input value={form.name} onChange={(event) => setField('name', event.target.value)} />
+            <input value={form.title} onChange={(event) => setField('title', event.target.value)} />
           </div>
           <div className="form-group">
             <label>Категория</label>
